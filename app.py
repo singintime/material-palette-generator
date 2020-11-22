@@ -1,6 +1,6 @@
+import os
 from flask import Flask
 from flask_restful import Resource, Api
-from jinja2 import TemplateNotFound
 from lib.palette import generatePalette
 
 app = Flask(__name__)
@@ -22,4 +22,5 @@ class Hex(Resource):
 
 api.add_resource(Hex, "/<string:code>")
 
-app.run(port=5000)
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
