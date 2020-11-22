@@ -1,4 +1,4 @@
-from .color import Color
+from lib.color import Color
 from math import log2
 
 black = "#000000"
@@ -30,7 +30,6 @@ def generatePalette(hex):
         name = f"A{i * 100}"
         shade = color.clone()
         shade.lightness = 1 - i / 10
-        print(shade.lightness)
         result[name] = shade.hex
         result["contrast"][name] = black if shade.luminance > 0.5 else white
 
