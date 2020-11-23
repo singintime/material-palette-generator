@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{title}} - {{code}}</title>
+  </head>
+
+  <body style="margin: 0; padding: 0; display: flex; flex-direction: column; font-family: monospace; height: 100vh">
+    <h1 style="padding: 1rem; flex: 1; flex-grow: 0">#{{code}}</h1>
+    {% for key in palette.keys() %}
+    <div style="padding: 1rem;  flex: 1; flex-grow: 1; background-color: {{palette[key]}}; color: {{contrast[key]}}">
+      {{key.ljust(4)}}: {{palette[key]}}
+    </div>
+    {% endfor %}
+  </body>
+</html>

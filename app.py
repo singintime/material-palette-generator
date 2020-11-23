@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Resource, Api
 from lib.palette import generatePalette
 
@@ -17,6 +17,20 @@ class Hex(Resource):
         if not palette:
             return {"error": {"message": "Color not found"}}, 404
         return palette, 200
+
+
+@app.route("/preview/<string:code>")
+def preview(code):
+    palette = generatePalette(f"#{code}")
+    contrast = palette["contrast"]
+    del palette["contrast"]
+    return render_template(
+        "home.html",
+        title="Material palette preview",
+        code=code,
+        palette=palette,
+        contrast=contrast,
+    )
 
 
 api.add_resource(Hex, "/<string:code>")
