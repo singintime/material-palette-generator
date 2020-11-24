@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from flask_restful import Resource, Api
 from lib.palette import generatePalette
 
@@ -22,6 +22,8 @@ class Hex(Resource):
 @app.route("/preview/<string:code>")
 def preview(code):
     palette = generatePalette(f"#{code}")
+    if not palette:
+        abort(404)
     contrast = palette["contrast"]
     del palette["contrast"]
     return render_template(
