@@ -1,5 +1,5 @@
 from lib.color import Color
-from math import log2
+from math import log2, inf
 
 black = "#000000"
 white = "#ffffff"
@@ -15,7 +15,7 @@ def generatePalette(hex):
     if not color:
         return None
 
-    gamma = -log2(color.lightness)
+    gamma = -log2(color.lightness) if color.lightness > 0 else -inf
 
     result = {"contrast": dict()}
     for i in range(1, 10):
