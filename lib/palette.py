@@ -15,7 +15,7 @@ def generatePalette(hex):
     if not color:
         return None
 
-    gamma = -log2(color.lightness) if color.lightness > 0 else -inf
+    gamma = -log2(color.lightness) if color.lightness > 0 else inf
 
     result = {"contrast": dict()}
     for i in range(1, 10):
