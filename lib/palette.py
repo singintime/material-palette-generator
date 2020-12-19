@@ -18,8 +18,8 @@ def generatePalette(hex):
     gamma = -log2(color.lightness) if color.lightness > 0 else inf
 
     result = {"contrast": dict()}
-    for i in range(1, 10):
-        name = f"{i * 100}"
+    for i in [0.5, *range(1, 10)]:
+        name = f"{int(i * 100)}"
         shade = color.clone()
         shade.lightness = (1 - i / 10) ** gamma
         result[name] = shade.hex
