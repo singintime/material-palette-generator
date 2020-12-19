@@ -17,13 +17,15 @@ def generatePalette(hex):
 
     gamma = -log2(color.lightness) if color.lightness > 0 else inf
 
-    result = {"contrast": dict()}
+    result = {}
+    contrast = {}
+
     for i in [0.5, *range(1, 10)]:
         name = f"{int(i * 100)}"
         shade = color.clone()
         shade.lightness = (1 - i / 10) ** gamma
         result[name] = shade.hex
-        result["contrast"][name] = black if shade.luminance > 0.5 else white
+        contrast[name] = black if shade.luminance > 0.5 else white
 
     color.saturate()
     for i in [1, 2, 4, 7]:
@@ -31,6 +33,8 @@ def generatePalette(hex):
         shade = color.clone()
         shade.lightness = 1 - i / 10
         result[name] = shade.hex
-        result["contrast"][name] = black if shade.luminance > 0.5 else white
+        contrast[name] = black if shade.luminance > 0.5 else white
+
+    result["contrast"] = contrast
 
     return result

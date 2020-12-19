@@ -7,7 +7,6 @@ api = Api(app)
 
 settings = app.config.get("RESTFUL_JSON", {})
 settings.setdefault("indent", 2)
-settings.setdefault("sort_keys", True)
 app.config["RESTFUL_JSON"] = settings
 
 
