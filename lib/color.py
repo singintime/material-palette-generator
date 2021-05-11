@@ -169,6 +169,23 @@ class Color:
         self.__setattr__(keys[2], new_h)
 
     """
+    Moves the color towards black for negative amounts (-1 = full black),
+    or towards white for positive amounts (1 = full white)
+    """
+
+    def scale(self, amount):
+        clamped_amount = clip(amount, -1, 1)
+
+        beta = abs(clamped_amount)
+        alpha = 1 - beta
+
+        shade = (0 if clamped_amount < 0 else 1) * beta
+
+        self.r = self.r * alpha + shade
+        self.g = self.g * alpha + shade
+        self.b = self.b * alpha + shade
+
+    """
     Maximise the saturation of the color's hue by setting
     the darkest component to 0, the brightest component to 1,
     and computing the one in between to preserve the original relative ratios.
@@ -179,9 +196,9 @@ class Color:
         keys = ordered["keys"]
         l, m, h = ordered["values"]
 
-        self.__setattr__(keys[0], 1 if l == h else 0)
-        self.__setattr__(keys[1], 1 if l == h else (m - l) / (h - l))
-        self.__setattr__(keys[2], 1)
+        self.__setattr__(keys[0], 0.5 if l == h else 0)
+        self.__setattr__(keys[1], 0.5 if l == h else (m - l) / (h - l))
+        self.__setattr__(keys[2], 0.5 if l == h else 1)
 
     """
     Create a new color instance with the same RGB values as the source one.
