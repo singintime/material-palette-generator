@@ -131,42 +131,20 @@ class Color:
         return LUMINANCE_R * r + LUMINANCE_G * g + LUMINANCE_B * b
 
     """
-    Color lightness - average of brightest and darkest component.
-    Best used to lighten or darken a color while preserving the hue.
-
-    Lightness is adjusted by adding the same value to the brightest and darkest component,
-    and computing the one in between to preserve the original relative ratios.
+    Return the contrast of the color against white.
     """
 
     @property
-    def lightness(self):
-        l, _, h = sorted([self.r, self.g, self.b])
-        return (l + h) / 2
+    def whiteContrast(self):
+        return 1.05 / (self.luminance + 0.05)
 
-    @lightness.setter
-    def lightness(self, value):
-        ordered = self.ordered_components
-        keys = ordered["keys"]
-        l, m, h = ordered["values"]
+    """
+    Return the contrast of the color against black.
+    """
 
-        b = 0 if l == h else (m - l) / (h - l)
-        a = 1 - b
-
-        diff = clip(value, 0, 1) - self.lightness
-        new_l = l + diff
-        new_h = h + diff
-
-        if new_l < 0:
-            new_h += new_l
-            new_l = 0
-
-        if new_h > 1:
-            new_l += new_h - 1
-            new_h = 1
-
-        self.__setattr__(keys[0], new_l)
-        self.__setattr__(keys[1], a * new_l + b * new_h)
-        self.__setattr__(keys[2], new_h)
+    @property
+    def blackContrast(self):
+        return (self.luminance + 0.05) / 0.05
 
     """
     Moves the color towards black for negative amounts (-1 = full black),

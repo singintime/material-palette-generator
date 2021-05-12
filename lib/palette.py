@@ -22,7 +22,10 @@ def generatePalette(hex):
         shade = color.clone()
         shade.scale((5 - i) / 5)
         result[name] = shade.hex
-        contrast[name] = black if shade.luminance > 0.5 else white
+
+        againstBlack = (shade.luminance + 0.05) / 0.05
+        againstWhite = 1.05 / (shade.luminance + 0.05)
+        contrast[name] = white if shade.whiteContrast > shade.blackContrast else black
 
     color.saturate()
     for i in [1, 2, 4, 7]:
@@ -30,7 +33,7 @@ def generatePalette(hex):
         shade = color.clone()
         shade.scale((5 - i) / 5)
         result[name] = shade.hex
-        contrast[name] = black if shade.luminance > 0.5 else white
+        contrast[name] = white if shade.whiteContrast > shade.blackContrast else black
 
     result["contrast"] = contrast
 
